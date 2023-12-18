@@ -1,9 +1,22 @@
 import React from "react";
 import { showFormattedDate } from "../utils";
-import { IoTrashBinOutline } from "react-icons/io5";
+import {
+  IoTrashBinOutline,
+  IoArrowDownCircleOutline,
+  IoArrowUpCircleOutline,
+} from "react-icons/io5";
 import PropTypes from "prop-types";
 
-const NoteDetails = ({ id, title, body, createdAt, archived, onDelete }) => {
+const NoteDetails = ({
+  id,
+  title,
+  body,
+  createdAt,
+  archived,
+  onArchive,
+  onUnarchive,
+  onDelete,
+}) => {
   return (
     <div>
       <h3 className="detail-page__title">{title}</h3>
@@ -13,9 +26,23 @@ const NoteDetails = ({ id, title, body, createdAt, archived, onDelete }) => {
         <button className="action" onClick={() => onDelete(id)} title="Hapus">
           <IoTrashBinOutline />
         </button>
-        <button className="action" onClick={() => onDelete(id)} title="Hapus">
-          <IoTrashBinOutline />
-        </button>
+        {archived ? (
+          <button
+            className="action"
+            onClick={() => onUnarchive(id)}
+            title="Aktif"
+          >
+            <IoArrowUpCircleOutline />
+          </button>
+        ) : (
+          <button
+            className="action"
+            onClick={() => onArchive(id)}
+            title="Arsip"
+          >
+            <IoArrowDownCircleOutline />
+          </button>
+        )}
       </div>
     </div>
   );
@@ -27,6 +54,8 @@ NoteDetails.propTypes = {
   body: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   archived: PropTypes.bool.isRequired,
+  onArchive: PropTypes.func.isRequired,
+  onUnarchive: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 

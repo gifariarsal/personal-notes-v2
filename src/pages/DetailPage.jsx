@@ -1,7 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
-import { getNote, getAllNotes, deleteNote } from "../utils/local-data";
+import {
+  getNote,
+  getAllNotes,
+  deleteNote,
+  archiveNote,
+  unarchiveNote,
+} from "../utils/local-data";
 import NoteDetails from "../components/NoteDetails";
 import NotFound from "../components/NotFound";
 
@@ -22,6 +28,8 @@ class DetailPage extends React.Component {
     };
 
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleArchive = this.handleArchive.bind(this);
+    this.handleUnarchive = this.handleUnarchive.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +50,28 @@ class DetailPage extends React.Component {
     this.props.navigate("/");
   }
 
+  handleArchive(id) {
+    archiveNote(id);
+    this.setState(() => {
+      return {
+        note: getAllNotes(),
+      };
+    });
+
+    this.props.navigate("/archives");
+  }
+
+  handleUnarchive(id) {
+    unarchiveNote(id);
+    this.setState(() => {
+      return {
+        note: getAllNotes(),
+      };
+    });
+
+    this.props.navigate("/");
+  }
+
   render() {
     if (this.state.notFound) {
       return <NotFound />;
@@ -49,7 +79,12 @@ class DetailPage extends React.Component {
 
     return (
       <section className="detail-page">
-        <NoteDetails {...this.state.note} onDelete={this.handleDelete} />
+        <NoteDetails
+          {...this.state.note}
+          onDelete={this.handleDelete}
+          onArchive={this.handleArchive}
+          onUnarchive={this.handleUnarchive}
+        />
       </section>
     );
   }

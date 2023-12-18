@@ -9,7 +9,7 @@ class HomePage extends React.Component {
     super(props);
 
     this.state = {
-      activeNotes: getAllNotes(),
+      activeNotes: getActiveNotes(),
     };
   }
   render() {
