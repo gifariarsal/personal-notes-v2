@@ -74,7 +74,7 @@ main {
   padding: 16px 8px;
 }
 
-.notes-list-empty {
+.notes-list-empty .not-found {
   margin-top: 32px;
   padding: 16px 8px;
 }
@@ -83,6 +83,11 @@ main {
   text-align: center;
   color: var(--on-background-grey);
 }
+
+.not-found h1 {
+  text-align: center;
+}
+
 .note-item {
   padding: 16px;
   border-radius: 8px;
