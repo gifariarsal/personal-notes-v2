@@ -1,6 +1,7 @@
 import React from "react";
 import { showFormattedDate } from "../utils";
 import { Link } from "react-router-dom";
+import parser from "html-react-parser";
 
 const NoteItem = ({ notes }) => {
   return (
@@ -11,7 +12,7 @@ const NoteItem = ({ notes }) => {
             <Link to={`/notes/${note.id}`}>{note.title}</Link>
           </h3>
           <p className="note-item__createdAt">{showFormattedDate(note.createdAt)}</p>
-          <p className="note-item__body">{note.body}</p>
+          <p className="note-item__body">{parser(note.body)}</p>
         </article>
       ))}
     </>

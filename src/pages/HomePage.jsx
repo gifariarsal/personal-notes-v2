@@ -2,15 +2,16 @@ import React from "react";
 import SearchBar from "../components/SearchBar";
 import NoteList from "../components/NoteList";
 import { IoAddOutline } from "react-icons/io5";
-import { getActiveNotes } from "../utils/local-data";
+import { getActiveNotes, getAllNotes } from "../utils/local-data";
+import { Link } from "react-router-dom";
 
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activeNotes: getActiveNotes()
-    }
+      activeNotes: getAllNotes(),
+    };
   }
   render() {
     return (
@@ -19,9 +20,11 @@ class HomePage extends React.Component {
         <SearchBar />
         <NoteList notes={this.state.activeNotes} />
         <div className="homepage__action">
-          <button className="action" type="button" title="Tambah Catatan">
-            <IoAddOutline />
-          </button>
+          <Link to="/notes/new">
+            <button className="action" type="button" title="Buat Catatan">
+              <IoAddOutline />
+            </button>
+          </Link>
         </div>
       </section>
     );
