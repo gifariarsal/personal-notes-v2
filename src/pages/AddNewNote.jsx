@@ -1,9 +1,11 @@
 import React from 'react'
 
-const AddNewNote = () => {
-  return (
-    <div>AddNewNote</div>
-  )
+class AddNewNote extends React.Component {
+  render() {
+    return (
+      <div>AddNewNotea</div>
+    )
+  }
 }
 
 export default AddNewNote

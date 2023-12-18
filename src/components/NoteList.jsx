@@ -1,12 +1,20 @@
-import React from 'react'
-import NoteItem from './NoteItem'
+import React from "react";
+import NoteItem from "./NoteItem";
 
-const NoteList = () => {
+const NoteList = ({ notes }) => {
   return (
-    <section className='note-list'>
-      <NoteItem />
-    </section>
-  )
-}
+    <>
+      {notes.length > 0 ? (
+        <section className="notes-list">
+          <NoteItem notes={notes} />
+        </section>
+      ) : (
+        <section className="notes-list-empty">
+          <p>Tidak ada catatan</p>
+        </section>
+      )}
+    </>
+  );
+};
 
-export default NoteList
+export default NoteList;

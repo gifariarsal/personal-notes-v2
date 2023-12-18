@@ -1,9 +1,11 @@
 import React from 'react'
 
-const DetailPage = () => {
-  return (
-    <div>DetailPage</div>
-  )
+class DetailPage extends React.Component {
+  render() {
+    return (
+      <section>as</section>
+    )
+  }
 }
 
 export default DetailPage
