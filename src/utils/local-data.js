@@ -68,7 +68,7 @@ function addNote({ title, body }) {
     {
       id: `notes-${+new Date()}`,
       title: title || "(untitled)",
-      body,
+      body: body || "(empty)",
       createdAt: new Date().toISOString(),
       archived: false,
     },
@@ -111,6 +111,12 @@ function editNote({ id, title, body }) {
   });
 }
 
+function searchNotes(keyword) {
+  return notes.filter((note) =>
+    note.title.toLowerCase().includes(keyword.toLowerCase())
+  );
+}
+
 export {
   getAllNotes,
   getActiveNotes,
@@ -121,4 +127,5 @@ export {
   archiveNote,
   unarchiveNote,
   addNote,
+  searchNotes,
 };
