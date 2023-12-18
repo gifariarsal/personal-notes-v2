@@ -1,9 +1,8 @@
 import React from "react";
 import SearchBar from "../components/SearchBar";
 import NoteList from "../components/NoteList";
-import { IoAddOutline } from "react-icons/io5";
 import { getActiveNotes, getAllNotes } from "../utils/local-data";
-import { Link } from "react-router-dom";
+import AddButton from "../components/AddButton";
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -20,11 +19,7 @@ class HomePage extends React.Component {
         <SearchBar />
         <NoteList notes={this.state.activeNotes} />
         <div className="homepage__action">
-          <Link to="/notes/new">
-            <button className="action" type="button" title="Buat Catatan">
-              <IoAddOutline />
-            </button>
-          </Link>
+          <AddButton />
         </div>
       </section>
     );

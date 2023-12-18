@@ -1,5 +1,6 @@
 import React from "react";
 import NoteItem from "./NoteItem";
+import PropTypes from "prop-types";
 
 const NoteList = ({ notes }) => {
   return (
@@ -15,6 +16,10 @@ const NoteList = ({ notes }) => {
       )}
     </>
   );
+};
+
+NoteList.propTypes = {
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default NoteList;
