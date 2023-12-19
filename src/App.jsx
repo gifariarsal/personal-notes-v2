@@ -1,11 +1,11 @@
-import React from 'react';
-import Header from './components/Header';
-import { Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import ArchivePage from './pages/ArchivePage';
-import AddNewPage from './pages/AddNewPage';
-import DetailPage from './pages/DetailPage';
-import NotFound from './components/NotFound';
+import React from "react";
+import Header from "./components/Header";
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import ArchivePage from "./pages/ArchivePage";
+import AddNewPage from "./pages/AddNewPage";
+import DetailPage from "./pages/DetailPage";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (

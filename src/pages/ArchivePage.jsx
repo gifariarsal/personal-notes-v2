@@ -13,9 +13,10 @@ function ArchivePageWrapper() {
     setSearchParams({ title: keyword });
   }
 
-  return <ArchivePage activeKeyword={title} handleSearch={changeSearchParams} />;
+  return (
+    <ArchivePage activeKeyword={title} handleSearch={changeSearchParams} />
+  );
 }
-
 
 class ArchivePage extends React.Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class ArchivePage extends React.Component {
 
   handleSearch(keyword) {
     this.setState(() => ({
-      archiveNotes: searchNotes(keyword, false), // Pass false to search archived notes
+      archiveNotes: searchNotes(keyword, false),
     }));
 
     this.props.handleSearch(keyword);

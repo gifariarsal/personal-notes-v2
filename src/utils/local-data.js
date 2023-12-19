@@ -121,7 +121,6 @@ function searchNotes(keyword, searchActiveNotes = true) {
     : filteredNotes.filter((note) => note.archived);
 }
 
-
 export {
   getAllNotes,
   getActiveNotes,

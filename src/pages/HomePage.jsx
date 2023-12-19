@@ -44,7 +44,10 @@ class HomePage extends React.Component {
     return (
       <section>
         <h2>Catatan Aktif</h2>
-        <SearchBar onSearch={this.handleSearch} keyword={this.props.activeKeyword} />
+        <SearchBar
+          onSearch={this.handleSearch}
+          keyword={this.props.activeKeyword}
+        />
         <NoteList notes={this.state.activeNotes} />
         <div className="homepage__action">
           <AddButton />
