@@ -111,11 +111,16 @@ function editNote({ id, title, body }) {
   });
 }
 
-function searchNotes(keyword) {
-  return notes.filter((note) =>
+function searchNotes(keyword, searchActiveNotes = true) {
+  const filteredNotes = notes.filter((note) =>
     note.title.toLowerCase().includes(keyword.toLowerCase())
   );
+
+  return searchActiveNotes
+    ? filteredNotes.filter((note) => !note.archived)
+    : filteredNotes.filter((note) => note.archived);
 }
+
 
 export {
   getAllNotes,

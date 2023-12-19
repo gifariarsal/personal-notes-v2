@@ -31,11 +31,9 @@ class ArchivePage extends React.Component {
   }
 
   handleSearch(keyword) {
-    this.setState(() => {
-      return {
-        archiveNotes: searchNotes(keyword),
-      };
-    });
+    this.setState(() => ({
+      archiveNotes: searchNotes(keyword, false), // Pass false to search archived notes
+    }));
 
     this.props.handleSearch(keyword);
   }
@@ -44,7 +42,10 @@ class ArchivePage extends React.Component {
     return (
       <section>
         <h2>Catatan Arsip</h2>
-        <SearchBar onSearch={this.handleSearch} keyword={this.props.activeKeyword} />
+        <SearchBar
+          onSearch={this.handleSearch}
+          keyword={this.props.activeKeyword}
+        />
         <NoteList notes={this.state.archiveNotes} />
       </section>
     );
