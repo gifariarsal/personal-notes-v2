@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../utils/api";
-import RegisterInput from "../components/RegisterInput";
 import useInput from "../hooks/useInput";
 
 function RegisterPage() {
@@ -19,7 +18,7 @@ function RegisterPage() {
       return;
     }
 
-    const user = { name, email, password, confirmPassword };
+    const user = { name, email, password };
     const { error } = await register(user);
 
     if (!error) {
