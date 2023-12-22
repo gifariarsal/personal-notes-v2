@@ -1,66 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import NoteList from "../components/NoteList";
-import { getActiveNotes, searchNotes } from "../utils/local-data";
 import AddButton from "../components/AddButton";
 import { useSearchParams } from "react-router-dom";
-import PropTypes from "prop-types";
+import { getActiveNotes } from "../utils/api";
 
-function HomePageWrapper() {
-  const [searchParams, setSearchParams] = useSearchParams();
+function HomePage() {
+  const [searchParams, setSearchParams] = useSearchParams("");
+  const [notes, setNotes] = useState([]);
+  const [title, setTitle] = useState(() => {
+    return searchParams.get("title") || "";
+  });
 
-  const title = searchParams.get("title");
-
-  function changeSearchParams(keyword) {
-    setSearchParams({ title: keyword });
-  }
-
-  return <HomePage activeKeyword={title} handleSearch={changeSearchParams} />;
-}
-
-class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeNotes: props.activeKeyword
-        ? searchNotes(props.activeKeyword)
-        : getActiveNotes(),
-    };
-
-    this.handleSearch = this.handleSearch.bind(this);
-  }
-
-  handleSearch(keyword) {
-    this.setState(() => {
-      return {
-        activeNotes: searchNotes(keyword),
-      };
+  useEffect(() => {
+    getActiveNotes().then(({ data }) => {
+      setNotes(data);
     });
+  }, []);
 
-    this.props.handleSearch(keyword);
+  function handleChangeTitle(title) {
+    setTitle(title);
+    setSearchParams({ title });
   }
 
-  render() {
-    return (
-      <section>
-        <h2>Catatan Aktif</h2>
-        <SearchBar
-          onSearch={this.handleSearch}
-          keyword={this.props.activeKeyword}
-        />
-        <NoteList notes={this.state.activeNotes} />
-        <div className="homepage__action">
-          <AddButton />
-        </div>
-      </section>
-    );
-  }
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(title.toLowerCase())
+  );
+
+  return (
+    <section>
+      <h2>Catatan Aktif</h2>
+      <SearchBar title={title} changeTitle={handleChangeTitle} />
+      <NoteList notes={filteredNotes} />
+      <div className="homepage__action">
+        <AddButton />
+      </div>
+    </section>
+  );
 }
 
-HomePage.propTypes = {
-  activeKeyword: PropTypes.string,
-  handleSearch: PropTypes.func,
-};
-
-export default HomePageWrapper;
+export default HomePage;

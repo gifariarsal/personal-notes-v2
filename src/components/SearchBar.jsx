@@ -1,44 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-class SearchBar extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      keyword: props.keyword || "",
-    };
-
-    this.handleKeywordChange = this.handleKeywordChange.bind(this);
-  }
-
-  handleKeywordChange(event) {
-    const newKeyword = event.target.value;
-
-    this.setState({
-      keyword: newKeyword,
-    });
-
-    this.props.onSearch(newKeyword);
-  }
-
-  render() {
-    return (
-      <section className="search-bar">
-        <input
-          type="text"
-          placeholder="Cari judul catatan..."
-          value={this.state.keyword}
-          onChange={this.handleKeywordChange}
-        />
-      </section>
-    );
-  }
-}
+const SearchBar = ({ title, changeTitle }) => {
+  return (
+    <section className="search-bar">
+      <input
+        type="text"
+        placeholder="Cari judul catatan ..."
+        value={title}
+        onChange={(e) => changeTitle(e.target.value)}
+      />
+    </section>
+  );
+};
 
 SearchBar.propTypes = {
-  onSearch: PropTypes.func.isRequired,
-  keyword: PropTypes.string,
+  title: PropTypes.string,
+  changeTitle: PropTypes.func.isRequired,
 };
 
 export default SearchBar;
