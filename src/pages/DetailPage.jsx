@@ -1,15 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getNote,
-  getAllNotes,
-  deleteNote,
-  archiveNote,
-  unarchiveNote,
-} from "../utils/local-data";
 import NoteDetails from "../components/NoteDetails";
 import NotFound from "../components/NotFound";
+import { archiveNote, deleteNote, getActiveNotes, getArchivedNotes, getNote, unarchiveNote } from "../utils/api";
 
 function DetailPageWrapper() {
   const { id } = useParams();
@@ -25,6 +19,7 @@ class DetailPage extends React.Component {
     this.state = {
       note: getNote(props.id),
       notFound: false,
+      initializing: true,
     };
 
     this.handleDelete = this.handleDelete.bind(this);
@@ -32,10 +27,15 @@ class DetailPage extends React.Component {
     this.handleUnarchive = this.handleUnarchive.bind(this);
   }
 
-  componentDidMount() {
-    if (!this.state.note) {
-      this.setState({ notFound: true });
-    }
+  async componentDidMount() {
+    const { data } = await getNote(this.props.id);
+
+    this.setState(() => {
+      return {
+        note: data,
+        initializing: false,
+      };
+    });
   }
 
   handleDelete(id) {
@@ -43,7 +43,7 @@ class DetailPage extends React.Component {
 
     this.setState(() => {
       return {
-        note: getAllNotes(),
+        note: getActiveNotes(),
       };
     });
 
@@ -54,7 +54,7 @@ class DetailPage extends React.Component {
     archiveNote(id);
     this.setState(() => {
       return {
-        note: getAllNotes(),
+        note: getArchivedNotes(),
       };
     });
 
@@ -65,7 +65,7 @@ class DetailPage extends React.Component {
     unarchiveNote(id);
     this.setState(() => {
       return {
-        note: getAllNotes(),
+        note: getActiveNotes(),
       };
     });
 
