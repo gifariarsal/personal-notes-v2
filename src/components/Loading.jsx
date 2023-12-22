@@ -1,11 +1,18 @@
-import React from 'react'
+import React from "react";
+import { LocaleConsumer } from "../contexts/LocaleContext";
 
 const Loading = () => {
   return (
-    <div className="loading">
-      <h1>Loading ...</h1>
-    </div>
+    <LocaleConsumer>
+      {({ locale }) => {
+        return (
+          <div className="loading">
+            <h1>{locale === "id" ? "Memuat..." : "Loading..."}</h1>
+          </div>
+        );
+      }}
+    </LocaleConsumer>
   );
-}
+};
 
-export default Loading
+export default Loading;

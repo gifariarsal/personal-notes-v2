@@ -20,6 +20,7 @@ class App extends React.Component {
       authedUser: null,
       initializing: true,
       theme: localStorage.getItem("theme") || "light",
+      locale: localStorage.getItem("locale") || "id",
       toggleTheme: () => {
         this.setState((prevState) => {
           const newTheme = prevState.theme === "light" ? "dark" : "light";
@@ -29,18 +30,14 @@ class App extends React.Component {
           };
         });
       },
-      localeContext: {
-        locale: "id",
-        toggleLocale: () => {
-          this.setState((prevState) => {
-            return {
-              localeContext: {
-                ...prevState.localeContext,
-                locale: prevState.localeContext.locale === "id" ? "en" : "id",
-              },
-            };
-          });
-        },
+      toggleLocale: () => {
+        this.setState((prevState) => {
+          const newLocale = prevState.locale === "id" ? "en" : "id";
+          localStorage.setItem("locale", newLocale);
+          return {
+            locale: newLocale,
+          };
+        });
       },
     };
 
@@ -50,6 +47,7 @@ class App extends React.Component {
 
   async componentDidMount() {
     document.documentElement.setAttribute("data-theme", this.state.theme);
+    document.documentElement.setAttribute("lang", this.state.locale);
     const { data } = await getUserLogged();
     this.setState(() => {
       return {
@@ -62,6 +60,10 @@ class App extends React.Component {
   componentDidUpdate(prevState) {
     if (prevState.theme !== this.state.theme) {
       document.documentElement.setAttribute("data-theme", this.state.theme);
+    }
+
+    if (prevState.locale !== this.state.locale) {
+      document.documentElement.setAttribute("lang", this.state.locale);
     }
   }
 
@@ -94,7 +96,7 @@ class App extends React.Component {
     if (this.state.authedUser === null) {
       return (
         <ThemeProvider value={this.state}>
-          <LocaleProvider value={this.state.localeContext}>
+          <LocaleProvider value={this.state}>
             <div className="app-container">
               <Header />
               <main>
@@ -114,7 +116,7 @@ class App extends React.Component {
 
     return (
       <ThemeProvider value={this.state}>
-        <LocaleProvider value={this.state.localeContext}>
+        <LocaleProvider value={this.state}>
           <div className="app-container">
             <Header logout={this.onLogout} name={this.state.authedUser.name} />
             <main>

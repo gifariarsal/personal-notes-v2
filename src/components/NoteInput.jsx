@@ -1,6 +1,7 @@
 import React from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
+import { LocaleConsumer } from "../contexts/LocaleContext";
 
 class NoteInput extends React.Component {
   constructor(props) {
@@ -44,26 +45,43 @@ class NoteInput extends React.Component {
   }
   render() {
     return (
-      <form className="add-new-page__input" onSubmit={this.handleOnSubmit}>
-        <input
-          className="add-new-page__input__title"
-          type="text"
-          placeholder="Judul Catatan"
-          value={this.state.title}
-          onChange={this.handleOnChangeTitle}
-        />
-        <div
-          className="add-new-page__input__body"
-          data-placeholder="Tuliskan isi catatan"
-          contentEditable
-          onInput={this.handleOnChangeBody}
-        />
-        <div className="add-new-page__action">
-          <button className="action" type="submit">
-            <IoCheckmarkOutline />
-          </button>
-        </div>
-      </form>
+      <LocaleConsumer>
+        {({ locale }) => {
+          return (
+            <form
+              className="add-new-page__input"
+              onSubmit={this.handleOnSubmit}
+            >
+              <input
+                className="add-new-page__input__title"
+                type="text"
+                placeholder={
+                  locale === "id"
+                    ? "Masukkan judul catatan ..."
+                    : "Enter note title ..."
+                }
+                value={this.state.title}
+                onChange={this.handleOnChangeTitle}
+              />
+              <div
+                className="add-new-page__input__body"
+                data-placeholder={
+                  locale === "id"
+                    ? "Masukkan isi catatan ..."
+                    : "Enter note content ..."
+                }
+                contentEditable
+                onInput={this.handleOnChangeBody}
+              />
+              <div className="add-new-page__action">
+                <button className="action" type="submit">
+                  <IoCheckmarkOutline />
+                </button>
+              </div>
+            </form>
+          );
+        }}
+      </LocaleConsumer>
     );
   }
 }

@@ -7,7 +7,13 @@ const ToggleTheme = () => {
     <ThemeConsumer>
       {({ theme, toggleTheme }) => {
         return (
-          <button className="toggle-theme" onClick={toggleTheme} type="button" aria-label="Ganti tema" title="Ganti tema">
+          <button
+            className="toggle-theme"
+            onClick={toggleTheme}
+            type="button"
+            aria-label="Ganti tema"
+            title="Ganti tema"
+          >
             {theme === "light" ? <IoMoonOutline /> : <IoSunnyOutline />}
           </button>
         );

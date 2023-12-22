@@ -4,6 +4,7 @@ import NoteList from "../components/NoteList";
 import { useSearchParams } from "react-router-dom";
 import { getArchivedNotes } from "../utils/api";
 import Loading from "../components/Loading";
+import { LocaleConsumer } from "../contexts/LocaleContext";
 
 function ArchivePage() {
   const [searchParams, setSearchParams] = useSearchParams("");
@@ -40,11 +41,17 @@ function ArchivePage() {
   );
 
   return (
-    <section>
-      <h2>Catatan Arsip</h2>
-      <SearchBar title={title} changeTitle={handleChangeTitle} />
-      {loading ? <Loading /> : <NoteList notes={filteredNotes} />}
-    </section>
+    <LocaleConsumer>
+      {({ locale }) => {
+        return (
+          <section>
+            <h2>{locale === "id" ? "Catatan Arsip" : "Archive Notes"}</h2>
+            <SearchBar title={title} changeTitle={handleChangeTitle} />
+            {loading ? <Loading /> : <NoteList notes={filteredNotes} />}
+          </section>
+        );
+      }}
+    </LocaleConsumer>
   );
 }
 
