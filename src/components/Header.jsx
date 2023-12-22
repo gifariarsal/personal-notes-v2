@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
 import ToggleTheme from "./ToggleTheme";
+import ToggleLocale from "./ToggleLocale";
 
 const Header = ({ logout, name }) => {
   return (
@@ -21,6 +22,7 @@ const Header = ({ logout, name }) => {
               </li>
             </ul>
           </nav>
+          <ToggleLocale />
           <ToggleTheme />
           <button className="button-logout" onClick={logout} type="button" aria-label="Logout" title="Logout">
             <IoLogOutOutline />{name}

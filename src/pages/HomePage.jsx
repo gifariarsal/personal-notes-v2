@@ -5,6 +5,7 @@ import AddButton from "../components/AddButton";
 import { useSearchParams } from "react-router-dom";
 import { getActiveNotes } from "../utils/api";
 import Loading from "../components/Loading";
+import { LocaleConsumer } from "../contexts/LocaleContext";
 
 function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams("");
@@ -17,7 +18,6 @@ function HomePage() {
   useEffect(() => {
     const fetchActiveNotes = async () => {
       try {
-        setLoading(true);
         const { data } = await getActiveNotes();
         setNotes(data);
       } catch (error) {
@@ -27,7 +27,9 @@ function HomePage() {
       }
     };
 
-    fetchActiveNotes();
+    if (!title) {
+      fetchActiveNotes();
+    }
   }, [title]);
 
   function handleChangeTitle(title) {
@@ -40,18 +42,18 @@ function HomePage() {
   );
 
   return (
-    <section>
-      <h2>Catatan Aktif</h2>
-      <SearchBar title={title} changeTitle={handleChangeTitle} />
-      {loading ? (
-        <Loading />
-      ) : (
-        <NoteList notes={filteredNotes} />
+    <LocaleConsumer>
+      {({ locale }) => (
+        <section>
+          <h2>{locale === "id" ? "Catatan aktif" : "Active notes"}</h2>
+          <SearchBar title={title} changeTitle={handleChangeTitle} />
+          {loading && !title ? <Loading /> : <NoteList notes={filteredNotes} />}
+          <div className="homepage__action">
+            <AddButton />
+          </div>
+        </section>
       )}
-      <div className="homepage__action">
-        <AddButton />
-      </div>
-    </section>
+    </LocaleConsumer>
   );
 }
 
