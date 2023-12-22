@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { getUserLogged, putAccessToken } from "./utils/api";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 class App extends React.Component {
   constructor(props) {
@@ -17,6 +18,16 @@ class App extends React.Component {
     this.state = {
       authedUser: null,
       initializing: true,
+      theme: localStorage.getItem("theme") || "light",
+      toggleTheme: () => {
+        this.setState((prevState) => {
+          const newTheme = prevState.theme === "light" ? "dark" : "light";
+          localStorage.setItem("theme", newTheme);
+          return {
+            theme: newTheme,
+          };
+        });
+      },
     };
 
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
@@ -24,6 +35,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+    document.documentElement.setAttribute("data-theme", this.state.theme);
     const { data } = await getUserLogged();
     this.setState(() => {
       return {
@@ -31,6 +43,12 @@ class App extends React.Component {
         initializing: false,
       };
     });
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.theme !== this.state.theme) {
+      document.documentElement.setAttribute("data-theme", this.state.theme);
+    }
   }
 
   async onLoginSuccess({ accessToken }) {
@@ -61,34 +79,38 @@ class App extends React.Component {
 
     if (this.state.authedUser === null) {
       return (
-        <div className="app-container">
-          <Header />
-          <main>
-            <Routes>
-              <Route
-                path="/*"
-                element={<LoginPage loginSuccess={this.onLoginSuccess} />}
-              />
-              <Route path="/register" element={<RegisterPage />} />
-            </Routes>
-          </main>
-        </div>
+        <ThemeProvider value={this.state}>
+          <div className="app-container">
+            <Header />
+            <main>
+              <Routes>
+                <Route
+                  path="/*"
+                  element={<LoginPage loginSuccess={this.onLoginSuccess} />}
+                />
+                <Route path="/register" element={<RegisterPage />} />
+              </Routes>
+            </main>
+          </div>
+        </ThemeProvider>
       );
     }
 
     return (
-      <div className="app-container">
-        <Header logout={this.onLogout} name={this.state.authedUser.name} />
-        <main>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/archives" element={<ArchivePage />} />
-            <Route path="/notes/new" element={<AddNewPage />} />
-            <Route path="/notes/:id" element={<DetailPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-      </div>
+      <ThemeProvider value={this.state}>
+        <div className="app-container">
+          <Header logout={this.onLogout} name={this.state.authedUser.name} />
+          <main>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/archives" element={<ArchivePage />} />
+              <Route path="/notes/new" element={<AddNewPage />} />
+              <Route path="/notes/:id" element={<DetailPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+        </div>
+      </ThemeProvider>
     );
   }
 }
