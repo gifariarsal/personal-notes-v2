@@ -36,7 +36,7 @@ const LoginPage = ({ loginSuccess }) => {
         <button type="submit">Login</button>
       </form>
       <p>
-        Belum punya akun? <Link to="/">Register</Link>
+        Belum punya akun? <Link to="/register">Register</Link>
       </p>
     </section>
   );
