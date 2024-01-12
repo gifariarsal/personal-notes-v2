@@ -1,19 +1,13 @@
 :root {
-  --background: #101720;
-  --surface: #101720;
-  --error: #CF6679;
-  --warning: #F39C12;
-  --on-background: #F0F8FF;
-  --on-background-grey: #B5C0CA;
-  --on-surface: #F0F8FF;
+  --background: #121212;
+  --on-background: #FFFFFF;
+  --on-background-grey: #c7c7c7;
 }
 
 [data-theme="light"] {
-  --background: #F0F8FF;
-  --suface: #F0F8FF;
-  --on-background: #101720;
-  --on-background-grey: #505B69;
-  --on-surface: #101720;
+  --background: #DDDDDD;
+  --on-background: #333333;
+  --on-background-grey: #6d6d6d;
 }
 
 * {
